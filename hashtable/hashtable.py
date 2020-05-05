@@ -19,7 +19,7 @@ class HashTable:
     def __init__(self, capacity):
         self.total = 0 # Number of elements in hash table
         self.capacity = capacity
-        self.hash_table = [None] * capacity
+        self.storage = [None] * capacity
 
     def fnv1(self, key):
         """
@@ -37,8 +37,8 @@ class HashTable:
         #Found here: http://www.cse.yorku.ca/~oz/hash.html
         hash_value = 5381
         for c in key:
-            hash_value = ((hash << 5) + hash_value) + c
-        return hash_value
+            hash_value = ((hash_value << 5) + hash_value) + ord(c)
+        return hash_value & 0xFFFFFFFF
 
     def hash_index(self, key):
         """
@@ -58,7 +58,7 @@ class HashTable:
         Implement this.
         """
         index = self.hash_index(key)
-        self.hash_table[index] = value
+        self.storage[index] = value
 
     def delete(self, key):
         """
@@ -69,7 +69,7 @@ class HashTable:
         Implement this.
         """
         index = self.hash_index(key)
-        self.hash_table[index] = None
+        self.storage[index] = None
 
     def get(self, key):
         """
@@ -80,7 +80,7 @@ class HashTable:
         Implement this.
         """
         index = self.hash_index(key)
-        return self.hash_table[index] 
+        return self.storage[index] 
 
     def resize(self):
         """
@@ -89,7 +89,7 @@ class HashTable:
 
         Implement this.
         """
-        
+        return self.capacity * 2
 
 if __name__ == "__main__":
     ht = HashTable(2)
