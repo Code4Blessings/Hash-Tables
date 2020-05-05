@@ -16,6 +16,10 @@ class HashTable:
 
     Implement this.
     """
+    def __init__(self, capacity):
+        self.total = 0 # Number of elements in hash table
+        self.capacity = capacity
+        self.hash_table = [None] * capacity
 
     def fnv1(self, key):
         """
@@ -30,12 +34,18 @@ class HashTable:
 
         Implement this, and/or FNV-1.
         """
+        #Found here: http://www.cse.yorku.ca/~oz/hash.html
+        hash_value = 5381
+        for c in key:
+            hash_value = ((hash << 5) + hash_value) + c
+        return hash_value
 
     def hash_index(self, key):
         """
         Take an arbitrary key and return a valid integer index
         between within the storage capacity of the hash table.
         """
+        self.djb2(key)
         #return self.fnv1(key) % self.capacity
         return self.djb2(key) % self.capacity
 
@@ -47,6 +57,8 @@ class HashTable:
 
         Implement this.
         """
+        index = self.hash_index(key)
+        self.hash_table[index] = value
 
     def delete(self, key):
         """
@@ -56,6 +68,8 @@ class HashTable:
 
         Implement this.
         """
+        index = self.hash_index(key)
+        self.hash_table[index] = None
 
     def get(self, key):
         """
@@ -65,6 +79,8 @@ class HashTable:
 
         Implement this.
         """
+        index = self.hash_index(key)
+        return self.hash_table[index] 
 
     def resize(self):
         """
@@ -73,6 +89,7 @@ class HashTable:
 
         Implement this.
         """
+        
 
 if __name__ == "__main__":
     ht = HashTable(2)
