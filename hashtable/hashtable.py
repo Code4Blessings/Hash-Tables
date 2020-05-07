@@ -57,8 +57,19 @@ class HashTable:
 
         Implement this.
         """
+        new_node = HashTableEntry(key, value)
         index = self.hash_index(key)
-        self.storage[index] = value
+        # Search the list for the key
+        # If it's there, replace the value
+        if self.storage[index] == None:
+            self.storage[index] = new_node
+        # If it's not, append a new record to the list
+        elif self.storage[index].key == key:
+            self.storage[index].value = value
+            #In any other case where the keys do not match, but there is a node present, you have to add the current node to the new_node's next property
+        else:
+            new_node.next = self.storage[index]
+            self.storage[index] = new_node
 
     def delete(self, key):
         """
@@ -69,8 +80,19 @@ class HashTable:
         Implement this.
         """
         index = self.hash_index(key)
-        self.storage[index] = None
-
+        node = self.storage[index]
+        # Find the hash index
+        if node is not None:
+        
+        # Search the list for the key
+        # If found, delete the node from the list, (return the node or value?)
+            if self.storage[index].key == key:
+                 self.storage[index].value = None
+        # Else return None
+        else:
+            self.storage[index].value = None
+       
+        
     def get(self, key):
         """
         Retrieve the value stored with the given key.
@@ -80,7 +102,22 @@ class HashTable:
         Implement this.
         """
         index = self.hash_index(key)
-        return self.storage[index] 
+        node = self.storage[index]
+        #Check to see if the node exists at that index
+        if node is not None: 
+            #check to see if the keys match, then return its value
+            if node.key == key:
+                return node.value
+        #If there is a node but the keys don't match, then loop through all of its next properties until you find the right key
+            else:
+               current_node = node.next
+               while current_node is not None:
+                   if current_node.key == key:
+                       return current_node.value
+                    
+                    # If the key does not exist after looping, then return None
+        else:
+            return None
 
     def resize(self):
         """
@@ -118,3 +155,6 @@ if __name__ == "__main__":
     print(ht.get("line_3"))
 
     print("")
+
+
+
