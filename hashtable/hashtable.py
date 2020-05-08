@@ -83,14 +83,14 @@ class HashTable:
         node = self.storage[index]
         # Find the hash index
         if node is not None:
-        
+            return 
         # Search the list for the key
         # If found, delete the node from the list, (return the node or value?)
             if self.storage[index].key == key:
                  self.storage[index].value = None
         # Else return None
         else:
-            self.storage[index].value = None
+            return None
        
         
     def get(self, key):
@@ -112,9 +112,9 @@ class HashTable:
             else:
                current_node = node.next
                while current_node is not None:
-                   if current_node.key == key:
-                       return current_node.value
-                    
+                    if current_node.key == key:
+                        return current_node.value
+                    current_node = current_node.next
                     # If the key does not exist after looping, then return None
         else:
             return None
@@ -156,5 +156,10 @@ if __name__ == "__main__":
 
     print("")
 
-
-
+#Delete:
+#Loop through the nodes.
+#For each node at the index
+#Check to see if the passed in key matches the key inside the current node
+#If it does, delete that node
+# *** The way to delete the node is to keep track of the prev_node and the current_node
+# Point the prev_node.next to the current_node.next (prev_node.next = current_node.next)
